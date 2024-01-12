@@ -1,0 +1,13 @@
+{
+  "name": "WordPressParser",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Mike Mangione",
+  "license": "MIT",
+  "dependencies": {
+    "@types/xml2js": "^0.4.14",
+    "cheerio": "^1.0.0-rc.12",
+    "fs": "^0.0.1-security",
+    "xml2js": "^0.6.2"
+  }
+}
