@@ -58,6 +58,8 @@ function parseXML(filePath: string) {
 
             for (const attr of attributeList) {
                 console.log(attr['title']);
+                // In theory, this would parse the encoded HTML
+                // In application, it doesn't work so great
                 const postHtml = cheerio.load(attr['content:encoded']);
                 console.log(Object.keys(postHtml))
             }
