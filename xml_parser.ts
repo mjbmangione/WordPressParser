@@ -56,17 +56,36 @@ function parseXML(filePath: string) {
 
             const attributeList = result.rss.channel[0].item.filter((a: any) => ['post'].includes(a['wp:post_type'][0]));
 
+            const filePath = 'output.txt'
             for (const attr of attributeList) {
-                console.log(attr['title']);
                 // In theory, this would parse the encoded HTML
                 // In application, it doesn't work so great
-                const postHtml = cheerio.load(attr['content:encoded']);
-                console.log(Object.keys(postHtml))
+
+                const encodedText: string = attr['content:encoded'][0]
+
+                const length = encodedText.length;
+
+                let skip = false
+                for (let i = 0; i < length; i++) {
+
+                    if (i < length - 3 && encodedText.slice(i, i + 4) === '<!--') {
+                        skip = true
+                    }
+                    else if (i - 3 > 0 && encodedText.slice(i - 3, i) === '-->') {
+                        skip = false
+                    }
+
+                    if (!skip) {
+                        result += encodedText[i]
+                    }
+                }
+
+                const postHtml = cheerio.load(result);
+
+                const resultText = postHtml('*').text();
+
+                fs.writeFileSync(filePath, resultText);
             }
-
-
-            // For specific operations, navigate through the result object
-            // For example, to access posts or comments, locate them in the structure
         });
     });
 }
